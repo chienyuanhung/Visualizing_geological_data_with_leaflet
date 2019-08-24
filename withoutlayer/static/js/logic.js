@@ -44,7 +44,7 @@ d3.json(queryUrl, function(data){
     }
   
   
-
+//  add legends
 grades = [0, 1, 2, 3, 4, 5],
 labels = ["#42f55a", "#c8f542", "#eff542", "#f5b642", "#f59c42", "#f57e42" ];
 
