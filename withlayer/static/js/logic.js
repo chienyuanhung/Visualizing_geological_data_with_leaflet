@@ -115,7 +115,7 @@ d3.json(quakeUrl, function(data1){
     layers: [Satellite, flLayer, quakeLayer]
     });
   
-  L.control.layers(baseMaps, overlayMaps).addTo(myMap);
+  L.control.layers(baseMaps, overlayMaps, {collapsed:false}).addTo(myMap);
 
 
   var legend = L.control({position: 'bottomright'});
