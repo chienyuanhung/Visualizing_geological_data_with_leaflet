@@ -2,7 +2,7 @@
 using leaflet to analyzing earthquake data from USGS
 
 * Without Layer
-![](images/withLayer.png)
+![](images/withoutLayer.png)
 
 * With Layers
-![](images/withoutLayer.png)
+![](images/withLayer.png)
