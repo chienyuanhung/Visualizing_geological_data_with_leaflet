@@ -77,7 +77,7 @@ d3.json(quakeUrl, function(data1){
         fillOpacity: 0.75,
         color: getColor(+quakeData[i].properties.mag),
         fillColor: getColor(+quakeData[i].properties.mag),
-        radius: +quakeData[i].properties.mag * 50000
+        radius: +quakeData[i].properties.mag * 30000
       }))
     }
   }
@@ -118,29 +118,28 @@ d3.json(quakeUrl, function(data1){
   L.control.layers(baseMaps, overlayMaps, {collapsed:false}).addTo(myMap);
 
 
-  var legend = L.control({position: 'bottomright'});
+  //  add legends
+grades = [0, 1, 2, 3, 4, 5],
+labels = ["#42f55a", "#c8f542", "#eff542", "#f5b642", "#f59c42", "#f57e42" ];
 
-  legend.onAdd = function (map) {
+var info = L.control({
+  position: "bottomright"
+});
 
-	var div = L.DomUtil.create('div', 'info legend'),
-		grades = [0, 1, 2, 3, 4, 5],
-		labels = ["SpringGreen", "YellowGreen", "PeachPuff", "SandyBrown", "Tan", "Tomato" ];
+info.onAdd = function() {
+  var div = L.DomUtil.create("div", "info legend")
+  
+  for (var i = 0; i < grades.length; i++) {
+    	div.innerHTML +=
+    		'<i style="background:' + labels[i] + '"></i> ' +
+    		grades[i] + (grades[i + 1] ? '-' + grades[i + 1] + '<br>' : '+');
+    }
+   return div
+};
 
-	// loop through our density intervals and generate a label with a colored square for each interval
-	for (var i = 0; i < grades.length; i++) {
-		div.innerHTML +=
-			'<i style="background:' + labels[i] + '"></i> ' +
-			grades[i] - (grades[i + 1] ? '&ndash;' + grades[i + 1] + '<br>' : '+');
-	}
+info.addTo(myMap);
 
-	 return div;
-  };
-
-  legend.addTo(myMap);
-
-// looping through earthquake 
-
-
+ 
  
 })
 

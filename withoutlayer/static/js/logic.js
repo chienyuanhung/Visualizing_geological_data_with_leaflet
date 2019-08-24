@@ -23,57 +23,47 @@ d3.json(queryUrl, function(data){
     accessToken: API_KEY
   }).addTo(myMap);
 
+  // getcolor function 
+
+  function getColor(d) {
+    return d > 5  ? '#f57e42' :
+           d > 4  ? '#f59c42' :
+           d > 3  ? '#f5b642' :
+           d > 2  ? '#eff542' :
+           d > 1  ? '#c8f542' :
+          '#42f55a' ;       
+  }
+
   for (var i = 0; i < data.features.length; i++) {
-    if (+data.features[i].properties.mag[i] >= 5) {
-        quakeColor = "Tomato"
-    }
-    else if (+data.features[i].properties.mag >= 4) {
-        quakeColor = "Tan"
-    }
-    else if (+data.features[i].properties.mag >= 3) {
-        quakeColor = "SandyBrown"
-    }
-    else if (+data.features[i].properties.mag >= 2) {
-        quakeColor = "PeachPuff"
-    }
-    else if (+data.features[i].properties.mag >= 1) {
-        quakeColor = "YellowGreen"
-    }
-    else {
-        quakeColor = "SpringGreen"
-    };
-
-
   L.circle([+data.features[i].geometry.coordinates[1], +data.features[i].geometry.coordinates[0]], {
         fillOpacity: 0.5,
-        color: quakeColor,
-        fillColor: quakeColor,
-        radius: +data.features[i].properties.mag * 50000
+        color: getColor(data.features[i].properties.mag),
+        fillColor: getColor(data.features[i].properties.mag),
+        radius: +data.features[i].properties.mag * 30000
       }).addTo(myMap);
     }
   
-  var legend = L.control({position: 'bottomright'});
+  
 
-  legend.onAdd = function (map) {
+grades = [0, 1, 2, 3, 4, 5],
+labels = ["#42f55a", "#c8f542", "#eff542", "#f5b642", "#f59c42", "#f57e42" ];
 
-	var div = L.DomUtil.create('div', 'info legend'),
-		grades = [0, 1, 2, 3, 4, 5],
-		labels = ["SpringGreen", "YellowGreen", "PeachPuff", "SandyBrown", "Tan", "Tomato" ];
+var info = L.control({
+  position: "bottomright"
+});
 
-	// loop through our density intervals and generate a label with a colored square for each interval
-	for (var i = 0; i < grades.length; i++) {
-		div.innerHTML +=
-			'<i style="background:' + labels[i] + '"></i> ' +
-			grades[i] - (grades[i + 1] ? '&ndash;' + grades[i + 1] + '<br>' : '+');
-	}
+info.onAdd = function() {
+  var div = L.DomUtil.create("div", "info legend")
+  
+  for (var i = 0; i < grades.length; i++) {
+    	div.innerHTML +=
+    		'<i style="background:' + labels[i] + '"></i> ' +
+    		grades[i] + (grades[i + 1] ? '-' + grades[i + 1] + '<br>' : '+');
+    }
+   return div
+};
 
-	 return div;
-  };
-
-  legend.addTo(myMap);
-
-// looping through earthquake 
-
+info.addTo(myMap);
 
  
 
